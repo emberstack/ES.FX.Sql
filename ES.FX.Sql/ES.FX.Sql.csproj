@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>EmberStack.com</Authors>
+    <Description>SQL Server management classes and data adapter extensions.</Description>
+    <Copyright>Copyright EmberStack.com</Copyright>
+    <PackageLicenseUrl>https://github.com/EmberStack/ES.FX.Sql/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/EmberStack/ES.FX.Sql</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/EmberStack/CDN/master/Projects/ES.FX/es.fx.1.0.0.0.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/EmberStack/ES.FX.Sql</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>ES Frameworks ES.FX EmberStack .Net DotNet SqlClient SQL Server</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ES.FX" Version="2.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Server\Commands.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Commands.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Server\Commands.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Commands.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
