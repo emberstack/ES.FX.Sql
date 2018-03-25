@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using ES.FX.Primitives;
 
 namespace ES.FX.Sql.Server
 {
-    public class SqlDatabaseCollection
+    internal class SqlDatabaseCollection : ISqlDatabaseCollection
     {
         private readonly SqlConnectionStringBuilder _builder;
 
-        public SqlDatabaseCollection(SqlConnectionStringBuilder builder)
+        internal SqlDatabaseCollection(SqlConnectionStringBuilder builder)
         {
             _builder = builder;
-            if (!builder.InitialCatalog.IsNullOrWhiteSpace()) CurrentDatabase = this[builder.InitialCatalog];
+            if (!string.IsNullOrWhiteSpace(builder.InitialCatalog)) Current = this[builder.InitialCatalog];
         }
 
-        public SqlDatabase this[string database]
+        public ISqlDatabase this[string database]
         {
             get
             {
-                if (database.IsNullOrWhiteSpace())
+                if (string.IsNullOrWhiteSpace(database))
                     throw new ArgumentNullException(nameof(database), "Database name cannot be null or whitespace.");
                 return new SqlDatabase(_builder.Duplicate().SetInitialCatalog(database));
             }
         }
 
-        public SqlDatabase CurrentDatabase { get; }
+        public ISqlDatabase Current { get; }
 
         public string[] GetAll()
         {

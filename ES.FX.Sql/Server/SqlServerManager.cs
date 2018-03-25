@@ -10,8 +10,8 @@ namespace ES.FX.Sql.Server
             Databases = new SqlDatabaseCollection(new SqlConnectionStringBuilder(connectionString));
         }
 
-
-        public SqlServer Server { get; }
-        public SqlDatabaseCollection Databases { get; }
+        public ISqlServer Server { get; }
+        public ISqlDatabaseCollection Databases { get; }
+        public ISqlDatabase CurrentDatabase => Databases.Current;
     }
 }

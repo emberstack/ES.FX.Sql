@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ES.FX.Sql.Server
 {
-    public class SqlServer
+    internal class SqlServer : ISqlServer
     {
         private readonly SqlConnectionStringBuilder _builder;
 
