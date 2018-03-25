@@ -8,7 +8,7 @@ using ES.FX.Sql.Server.Azure;
 
 namespace ES.FX.Sql.Server
 {
-    public class SqlDatabase
+    internal class SqlDatabase : ISqlDatabase
     {
         private readonly SqlConnectionStringBuilder _builder;
         private readonly SqlServer _server;
@@ -17,8 +17,10 @@ namespace ES.FX.Sql.Server
         {
             _builder = builder;
             _server = new SqlServer(_builder);
+            Name = _builder.InitialCatalog;
         }
 
+        public string Name { get; }
 
         public void Create(AzureDatabaseTierDetails azureDetails = null)
         {
@@ -133,6 +135,19 @@ namespace ES.FX.Sql.Server
             return false;
         }
 
+
+        public string[] GetSchemas()
+        {
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder))
+            using (var command = new SqlCommand(Commands.Database_Schemas_Get_All, connection))
+            {
+                var results = new List<string>();
+                var reader = command.ExecuteReader();
+                while (reader.Read()) results.Add(reader[0].ToString());
+                return results.OrderBy(s => s).ToArray();
+            }
+        }
+
         public async Task<bool> ExecuteReadWriteCheckAsync(TimeSpan? timeout = null)
         {
             var waitTime = timeout ?? TimeSpan.FromMinutes(10);
@@ -156,19 +171,6 @@ namespace ES.FX.Sql.Server
                 }
 
             return false;
-        }
-
-
-        public string[] GetSchemas()
-        {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder))
-            using (var command = new SqlCommand(Commands.Database_Schemas_Get_All, connection))
-            {
-                var results = new List<string>();
-                var reader = command.ExecuteReader();
-                while (reader.Read()) results.Add(reader[0].ToString());
-                return results.OrderBy(s => s).ToArray();
-            }
         }
 
         public override string ToString()
