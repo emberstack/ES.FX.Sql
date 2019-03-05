@@ -24,7 +24,7 @@ namespace ES.FX.Sql.Server
 
         public void Create(AzureDatabaseTierDetails azureDetails = null)
         {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.ToMasterString()))
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_Create, connection))
             {
                 if (azureDetails != null && _server.IsAzure())
@@ -43,7 +43,7 @@ namespace ES.FX.Sql.Server
 
         public async Task CreateAsync(AzureDatabaseTierDetails azureDetails = null)
         {
-            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.ToMasterString()))
+            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_Create, connection))
             {
                 if (azureDetails != null && await _server.IsAzureAsync())
@@ -63,7 +63,7 @@ namespace ES.FX.Sql.Server
 
         public void Drop(bool closeConnections = false)
         {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.ToMasterString()))
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.CloneForMaster().ConnectionString))
             using (var command =
                 new SqlCommand(closeConnections ? Commands.Database_Drop_CloseConnections : Commands.Database_Drop,
                     connection))
@@ -75,7 +75,7 @@ namespace ES.FX.Sql.Server
 
         public async Task DropAsync(bool closeConnections = false)
         {
-            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.ToMasterString()))
+            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.CloneForMaster().ConnectionString))
             using (var command =
                 new SqlCommand(closeConnections ? Commands.Database_Drop_CloseConnections : Commands.Database_Drop,
                     connection))
@@ -88,7 +88,7 @@ namespace ES.FX.Sql.Server
 
         public bool Exists()
         {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.ToMasterString()))
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_ID, connection))
             {
                 command.Parameters.AddWithValue("@Database", _builder.InitialCatalog);
@@ -99,7 +99,7 @@ namespace ES.FX.Sql.Server
 
         public async Task<bool> ExistsAsync()
         {
-            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.ToMasterString()))
+            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_ID, connection))
             {
                 command.Parameters.AddWithValue("@Database", _builder.InitialCatalog);

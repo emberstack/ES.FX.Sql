@@ -19,7 +19,7 @@ namespace ES.FX.Sql
         /// <summary>
         ///     Initializes a new instance of <see cref="SqlConnectionStringBuilder" /> from another instance.
         /// </summary>
-        public static SqlConnectionStringBuilder Duplicate(this SqlConnectionStringBuilder source,
+        public static SqlConnectionStringBuilder Clone(this SqlConnectionStringBuilder source,
             string initialCatalog = null)
         {
             if (source == null) return null;
@@ -36,7 +36,9 @@ namespace ES.FX.Sql
             return builder.SetInitialCatalog("master");
         }
 
-
+        /// <summary>
+        /// Sets the InitialCatalog to <param name="database"></param>
+        /// </summary>
         public static SqlConnectionStringBuilder SetInitialCatalog(this SqlConnectionStringBuilder builder,
             string database = null)
         {
@@ -45,9 +47,14 @@ namespace ES.FX.Sql
         }
 
 
-        public static string ToMasterString(this SqlConnectionStringBuilder builder)
+        /// <summary>
+        /// Creates a new instance of <see cref="SqlConnectionStringBuilder"/> with <see cref="SqlConnectionStringBuilder.InitialCatalog"/> set to "master"
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static SqlConnectionStringBuilder CloneForMaster(this SqlConnectionStringBuilder builder)
         {
-            return builder?.Duplicate().SetInitialCatalogToMaster().ToString();
+            return builder?.Clone().SetInitialCatalogToMaster();
         }
     }
 }

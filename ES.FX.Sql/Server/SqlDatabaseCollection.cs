@@ -22,7 +22,7 @@ namespace ES.FX.Sql.Server
             {
                 if (string.IsNullOrWhiteSpace(database))
                     throw new ArgumentNullException(nameof(database), "Database name cannot be null or whitespace.");
-                return new SqlDatabase(_builder.Duplicate().SetInitialCatalog(database));
+                return new SqlDatabase(_builder.CloneForMaster());
             }
         }
 
@@ -30,7 +30,7 @@ namespace ES.FX.Sql.Server
 
         public string[] GetAll()
         {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.ToMasterString()))
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_Get_All, connection))
             {
                 var result = new List<string>();
@@ -42,7 +42,7 @@ namespace ES.FX.Sql.Server
 
         public async Task<string[]> GetAllAsync()
         {
-            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.ToMasterString()))
+            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Database_Get_All, connection))
             {
                 var result = new List<string>();

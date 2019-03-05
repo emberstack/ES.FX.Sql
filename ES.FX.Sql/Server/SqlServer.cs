@@ -26,7 +26,7 @@ namespace ES.FX.Sql.Server
 
         public string GetProperty(string propertyName)
         {
-            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.ToMasterString()))
+            using (var connection = SqlConnectionFactory.CreateAndOpen(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Server_Property_Get, connection))
             {
                 command.Parameters.AddWithValue("@Property", propertyName);
@@ -37,7 +37,7 @@ namespace ES.FX.Sql.Server
 
         public async Task<string> GetPropertyAsync(string propertyName)
         {
-            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.ToMasterString()))
+            using (var connection = await SqlConnectionFactory.CreateAndOpenAsync(_builder.CloneForMaster().ConnectionString))
             using (var command = new SqlCommand(Commands.Server_Property_Get, connection))
             {
                 command.Parameters.AddWithValue("@Property", propertyName);
