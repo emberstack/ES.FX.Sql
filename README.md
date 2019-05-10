@@ -3,7 +3,7 @@
 [package-image]: https://img.shields.io/nuget/v/ES.FX.Sql.svg
 [wiki-url]:      https://github.com/EmberStack/ES.FX.Sql/wiki
 
-# ES.FX.Sql [![Build Status](https://dev.azure.com/emberstack/ES.FX-Public/_apis/build/status/ES.FX.Sql?branchName=master)](https://dev.azure.com/emberstack/ES.FX-Public/_build/latest?definitionId=6&branchName=master) [![package][package-image]][package-url]
+# ES.FX.Sql [![Build Status](https://dev.azure.com/emberstack/OpenSource/_apis/build/status/ES.FX.Sql?branchName=master)](https://dev.azure.com/emberstack/OpenSource/_build/latest?definitionId=6&branchName=master) [![package][package-image]][package-url]
 SQL Server management classes and data adapter extensions for .NET
 
 
